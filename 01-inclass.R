@@ -33,6 +33,7 @@ names(yrbss)
 
 yrbss$Grade <- yrbss$grade
 yrbss$Gender <- yrbss$gender
+yrbss$Physically_Active_7d <- yrbss$physically_active_7d
 # checking the categories 
 unique(yrbss$Grade)
 unique(yrbss$Gender)
@@ -61,7 +62,8 @@ ft_1
 # Ensure that the figure is clearly labeled and includes an appropriate legend
 
 # creating table of the average number of physically active days withen each grade and gender
-mean_active <- aggregate(physically_active_7d ~ Grade + Gender,
+table(yrbss$Physically_Active_7d)
+mean_active <- aggregate(Physically_Active_7d ~ Grade + Gender,
 data = yrbss,
 FUN = mean)
 ft_2 <- as_flextable(mean_active)
@@ -71,7 +73,7 @@ ft_2
 mean_active |> 
   ggplot(aes(
     x = Grade,
-    y = physically_active_7d,
+    y = Physically_Active_7d,
     color = Gender, 
     group = Gender )) +
   geom_line() +
@@ -96,11 +98,11 @@ female_12 <- yrbss |>
   filter(Grade == "12", Gender == "Female")
 
 female_12 |> 
-  filter(!is.na(physically_active_7d), !is.na(bmi))|>
-  ggplot(aes(x = factor(physically_active_7d), y = bmi)) +
+  filter(!is.na(bmi))|>
+  ggplot(aes(x = factor(Physically_Active_7d), y = bmi)) +
   geom_boxplot(fill = "lightblue", color = "steelblue")+
   labs(
-    title = "Physical Activity and BMI Among Grade 12 Females", 
+    title = "BMI by Physical Activity Among Grade 12 Females", 
     x = "Number of Physically Active Days",
     y = "BMI ( Weight in kg/ Height in m^2 )"
   ) +
